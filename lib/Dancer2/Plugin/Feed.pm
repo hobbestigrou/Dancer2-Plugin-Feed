@@ -11,7 +11,6 @@ my $ct = {
     rss  => 'application/rss+xml',
 };
 
-
 my @feed_properties =
   qw/format title base link tagline description author id language copyright self_link modified/;
 
@@ -25,9 +24,11 @@ register create_feed => sub {
 
     if ($format =~ /^atom$/i) {
         _create_atom_feed(\%params);
-    }elsif($format =~/^rss$/i) {
+    }
+    elsif($format =~/^rss$/i) {
         _create_rss_feed(\%params);
-    }else{
+    }
+    else {
         die "Unknown format $format, use rss or atom\n";
     }
 };
@@ -50,7 +51,7 @@ sub _validate_format {
 
     if (!$format) {
         my $settings = plugin_setting;
-        $format = $settings->{format} 
+        $format      = $settings->{format}
             or die "Feed format is missing\n";
     }
 
@@ -66,7 +67,7 @@ sub _create_feed {
 
     my $entries = delete $params->{entries};
 
-    my $feed = XML::Feed->new($format);
+    my $feed     = XML::Feed->new($format);
     my $settings = plugin_setting;
 
     map {
