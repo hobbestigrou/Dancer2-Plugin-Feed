@@ -1,6 +1,6 @@
 package Dancer2::Plugin::Feed;
 
-use Dancer2 ':syntax';
+use Dancer2;
 use Dancer2::Plugin;
 use XML::Feed;
 
