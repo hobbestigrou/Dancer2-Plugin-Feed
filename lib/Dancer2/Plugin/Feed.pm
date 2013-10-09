@@ -1,6 +1,6 @@
 package Dancer2::Plugin::Feed;
 
-use Dancer2 ':syntax';
+use Dancer2;
 use Dancer2::Plugin;
 use XML::Feed;
 
@@ -23,10 +23,10 @@ register create_feed => sub {
     my $format = _validate_format(\%params);
 
     if ($format =~ /^atom$/i) {
-        _create_atom_feed(\%params);
+        _create_atom_feed($dsl, \%params);
     }
     elsif($format =~/^rss$/i) {
-        _create_rss_feed(\%params);
+        _create_rss_feed($dsl, \%params);
     }
     else {
         die "Unknown format $format, use rss or atom\n";
@@ -36,13 +36,13 @@ register create_feed => sub {
 register create_atom_feed => sub {
     my ($dsl, %params) = plugin_args(@_);
 
-    _create_atom_feed(\%params);
+    _create_atom_feed($dsl, \%params);
 };
 
 register create_rss_feed => sub {
     my ($dsl, %params) = plugin_args(@_);
 
-    _create_rss_feed(\%params);
+    _create_rss_feed($dsl, \%params);
 };
 
 sub _validate_format {
@@ -90,16 +90,16 @@ sub _create_feed {
 }
 
 sub _create_atom_feed {
-    my $params = shift;
+    my ($dsl, $params) = @_;
 
-    content_type($ct->{atom});
+    $dsl->content_type($ct->{atom});
     _create_feed('Atom', $params);
 }
 
 sub _create_rss_feed {
-    my $params = shift;
+    my ($dsl, $params) = @_;
 
-    content_type($ct->{rss});
+    $dsl->content_type($ct->{rss});
     _create_feed('RSS', $params);
 }
 
