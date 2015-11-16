@@ -25,7 +25,7 @@ register create_feed => sub {
     if (lc $format eq 'atom') {
         _create_atom_feed($dsl, \%params);
     }
-    elsif(ls $format eq 'rss') {
+    elsif(lc $format eq 'rss') {
         _create_rss_feed($dsl, \%params);
     }
     else {
@@ -55,7 +55,7 @@ sub _validate_format {
             or die "Feed format is missing\n";
     }
 
-    if ($format !~ /^(?:atom|rss)$/i) {
+    if (! exists $ct->{$format}) {
         die "Unknown format $format, use rss or atom\n";
     }
 
