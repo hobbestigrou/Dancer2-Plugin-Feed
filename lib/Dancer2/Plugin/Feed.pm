@@ -22,10 +22,10 @@ register create_feed => sub {
 
     my $format = _validate_format(\%params);
 
-    if ($format =~ /^atom$/i) {
+    if (lc $format eq 'atom') {
         _create_atom_feed($dsl, \%params);
     }
-    elsif($format =~/^rss$/i) {
+    elsif(ls $format eq 'rss') {
         _create_rss_feed($dsl, \%params);
     }
     else {
