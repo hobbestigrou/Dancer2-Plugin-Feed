@@ -70,18 +70,18 @@ sub _create_feed {
     my $feed     = XML::Feed->new($format);
     my $settings = plugin_setting;
 
-    map {
+    foreach (@feed_properites) {
         my $val = $params->{$_} || $settings->{$_};
         $feed->$_($val) if ($val);
-    } @feed_properties;
+    }
 
     foreach my $entry (@$entries) {
         my $e = XML::Feed::Entry->new($format);
 
-        map {
+        foreach (@entries_properties) {
             my $val = $entry->{$_};
             $e->$_($val) if $val
-        } @entries_properties;
+        }
 
         $feed->add_entry($e);
     }
