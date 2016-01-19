@@ -21,10 +21,10 @@ register create_feed => sub {
 
     my $format = _validate_format(\%params);
 
-    if ($format =~ /^atom$/i) {
+    if (lc $format eq 'atom') {
         _create_atom_feed($dsl, \%params);
     }
-    elsif($format =~/^rss$/i) {
+    elsif(lc $format eq 'rss') {
         _create_rss_feed($dsl, \%params);
     }
     else {
@@ -54,7 +54,7 @@ sub _validate_format {
             or die "Feed format is missing\n";
     }
 
-    if ($format !~ /^(?:atom|rss)$/i) {
+    if (! exists $ct->{$format}) {
         die "Unknown format $format, use rss or atom\n";
     }
 
@@ -69,18 +69,18 @@ sub _create_feed {
     my $feed     = XML::Feed->new($format);
     my $settings = plugin_setting;
 
-    map {
+    foreach (@feed_properites) {
         my $val = $params->{$_} || $settings->{$_};
         $feed->$_($val) if ($val);
-    } @feed_properties;
+    }
 
     foreach my $entry (@$entries) {
         my $e = XML::Feed::Entry->new($format);
 
-        map {
+        foreach (@entries_properties) {
             my $val = $entry->{$_};
             $e->$_($val) if $val
-        } @entries_properties;
+        }
 
         $feed->add_entry($e);
     }
