@@ -69,7 +69,7 @@ sub _create_feed {
     my $feed     = XML::Feed->new($format);
     my $settings = plugin_setting;
 
-    foreach (@feed_properites) {
+    foreach (@feed_properties) {
         my $val = $params->{$_} || $settings->{$_};
         $feed->$_($val) if ($val);
     }
