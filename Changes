@@ -2,6 +2,10 @@ Revision history for Dancer-Plugin-Feed
 
 {{$NEXT}}
 
+1.160550  2016-02-24 23:01:28+01:00 Europe/Paris
+
+    * Fix typo feed properties by Peter Mottram (#6).
+
 1.160190  2016-01-19 23:54:36+01:00 Europe/Paris
 
     * Initial version developed.
